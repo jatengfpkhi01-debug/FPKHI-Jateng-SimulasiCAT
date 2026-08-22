@@ -105,6 +105,7 @@
                     </div>
                     <div class="mb-6 relative">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        <!-- ID HARUS IDENTIK DENGAN PARAMETER FUNGSI TOGGLE -->
                         <input type="password" id="login-password" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-haji-secondary outline-none pr-10" required>
                         <button type="button" onclick="togglePassword('login-password')" class="absolute right-3 top-8 text-gray-500 hover:text-gray-700">
                             <i class="fa-solid fa-eye"></i>
@@ -437,28 +438,27 @@ Password : {{Password}}</textarea>
         // ==========================================
         // KONFIGURASI API VERCEL KE GOOGLE APPS SCRIPT
         // ==========================================
-        // GANTI URL INI DENGAN URL WEBAPP /EXEC ANDA!
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx_YOUR_URL_HERE/exec"; 
+        // GANTI URL INI DENGAN URL WEBAPP /EXEC ANDA YANG BARU!
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz6wpo-zKnIQ27x4HzP6gGoaikv65WlAcNHZ-OyVWyr0gak4_dTcLR0Fp9mSjwlp4kc/exec"; 
         
         // Auto-detect environment Canvas (Local) jika URL belum diisi
-        const IS_LOCAL = (SCRIPT_URL === "");
+        const IS_LOCAL = (SCRIPT_URL === "" || SCRIPT_URL.includes("AKfycbx_YOUR_URL_HERE"));
 
         // ==========================================
-        // FUNGSI KOMUNIKASI API (FETCH) YANG DIPERBARUI
+        // FUNGSI KOMUNIKASI API (FETCH) FINAL ANTI-CORS
         // ==========================================
         async function apiCall(action, data) {
             if (IS_LOCAL) return mockApiCall(action, data); 
 
             try {
-                // Perbaikan krusial untuk komunikasi lintas domain (Vercel -> GAS)
+                // Perbaikan krusial: Gunakan mode 'no-cors' karena kita menembak Google dari domain lain (Vercel)
+                // Namun, kita tetap membungkus body dalam text/plain
                 const response = await fetch(SCRIPT_URL, {
-                    redirect: "follow", // WAJIB untuk GAS POST redirect
+                    redirect: "follow", 
                     method: "POST",
                     headers: { 
-                        // Menggunakan text/plain mencegah pre-flight CORS error yang sering memblokir JSON
                         "Content-Type": "text/plain;charset=utf-8" 
                     },
-                    // Payload tetap di-stringify JSON
                     body: JSON.stringify({ action: action, ...data }) 
                 });
                 
@@ -466,7 +466,7 @@ Password : {{Password}}</textarea>
                 return await response.json();
             } catch (error) {
                 console.error("API Error:", error);
-                throw new Error("Gagal terhubung ke server (Cek koneksi atau URL WebApp).");
+                throw new Error("Gagal terhubung ke server (Cek koneksi, URL WebApp, atau Pastikan URL sudah versi terbaru hasil Deploy).");
             }
         }
 
@@ -543,12 +543,14 @@ Password : {{Password}}</textarea>
             });
         }
 
+        // --- PREVENT SHORTCUTS (Anti-Cheat Screenshot) ---
         document.addEventListener('keydown', function(e) {
             if (e.key === 'PrintScreen' || (e.ctrlKey && (e.key === 'p' || e.key === 's')) || (e.metaKey && e.shiftKey && (e.key === '3' || e.key === '4' || e.key === '5'))) {
                 e.preventDefault(); Swal.fire('Peringatan', 'Fitur Screenshot/Cetak Layar dinonaktifkan.', 'warning');
             }
         });
 
+        // --- FULLSCREEN API ---
         function enterFullscreen() {
             let elem = document.documentElement;
             if (elem.requestFullscreen) { elem.requestFullscreen(); } else if (elem.webkitRequestFullscreen) { elem.webkitRequestFullscreen(); } else if (elem.msRequestFullscreen) { elem.msRequestFullscreen(); }
@@ -565,6 +567,7 @@ Password : {{Password}}</textarea>
             adminData: { users: [], schedules: [] }
         };
 
+        // --- ALGORITMA PENGACAKAN FISHER-YATES ---
         function shuffleArray(array) {
             let arr = [...array];
             for (let i = arr.length - 1; i > 0; i--) {
@@ -574,7 +577,30 @@ Password : {{Password}}</textarea>
             return arr;
         }
 
+        // --- UTILITY FUNCTIONS ---
         function showLoading(text = "Memproses Data...") { document.getElementById('loader-text').innerText = text; document.getElementById('loader').style.display = 'flex'; }
+        function hideLoading() { document.getElementById('loader').style.display = 'none'; }
+        function togglePassword(inputId) { 
+            const input = document.getElementById(inputId); 
+            // Pastikan elemen input ditemukan sebelum merubah typenya
+            if(input) {
+                input.type = input.type === 'password' ? 'text' : 'password'; 
+            } else {
+                console.error("Elemen input dengan ID " + inputId + " tidak ditemukan!");
+            }
+        }
+        
+        function formatTime(timestampStr) {
+            if(!timestampStr) return '-';
+            const date = new Date(parseInt(timestampStr));
+            return date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + " WIB";
+        }
+        function formatDateTime(isoString) {
+            if(!isoString) return '-';
+            const date = new Date(isoString);
+            return date.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }) + " WIB";
+        }
+
         // --- ROUTING SPA ---
         function switchSection(sectionId) {
             const sections = ['login-section', 'register-section', 'dashboard-section', 'exam-section', 'admin-section'];
@@ -583,7 +609,7 @@ Password : {{Password}}</textarea>
                 if (el) {
                     if (id === sectionId) {
                         el.classList.remove('hidden');
-                        // Use flex for login and exam sections, block for others
+                        // Use flex for login and exam sections to maintain centering/layout
                         if (id === 'login-section' || id === 'exam-section' || id === 'admin-section') {
                             el.classList.add('flex');
                         } else {
@@ -599,6 +625,7 @@ Password : {{Password}}</textarea>
             });
         }
 
+        // --- FEEDBACK LOGIC ---
         function getScoreFeedback(score) {
             const numScore = parseFloat(score);
             if (numScore >= 90) return { category: "Sangat siap", desc: "Penguasaan materi sudah kuat. Fokus berikutnya adalah kecepatan mengerjakan soal dan soal kasus.", color: "text-green-700", bg: "bg-green-50", border: "border-green-200" };
@@ -606,6 +633,7 @@ Password : {{Password}}</textarea>
             if (numScore >= 70) return { category: "Cukup", desc: "Perlu mengulang KMK 508/2024, istithaah, manasik, kegawatdaruratan dan regulasi.", color: "text-yellow-700", bg: "bg-yellow-50", border: "border-yellow-200" };
             return { category: "Perlu penguatan", desc: "Sebaiknya belajar berdasarkan kelompok materi sebelum melakukan simulasi ulang.", color: "text-red-700", bg: "bg-red-50", border: "border-red-200" };
         }
+
         // --- AUTH ---
         async function handleLogin(e) {
             e.preventDefault();
@@ -630,7 +658,7 @@ Password : {{Password}}</textarea>
             e.preventDefault();
             const data = {
                 nama: document.getElementById('reg-name').value, 
-                nik: 'NONIK-' + Date.now(), // Auto-generate NIK dummy agar tidak bentrok di backend
+                nik: 'NONIK-' + Date.now(), // Dummy NIK karena form sudah dihapus
                 email: document.getElementById('reg-email').value, profesi: document.getElementById('reg-profesi').value,
                 peminatan: document.getElementById('reg-peminatan').value, password: document.getElementById('reg-password').value
             };
@@ -953,7 +981,7 @@ Password : {{Password}}</textarea>
         window.onload = () => {
             switchSection('login-section');
             if(!IS_LOCAL && SCRIPT_URL === "") {
-                console.warn("https://script.google.com/macros/s/AKfycbz6wpo-zKnIQ27x4HzP6gGoaikv65WlAcNHZ-OyVWyr0gak4_dTcLR0Fp9mSjwlp4kc/exec");
+                console.warn("SCRIPT_URL BELUM DIISI! Sistem akan berjalan dalam mode Mock/Canvas.");
             }
         };
     </script>
