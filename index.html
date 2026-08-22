@@ -438,24 +438,31 @@ Password : {{Password}}</textarea>
         // KONFIGURASI API VERCEL KE GOOGLE APPS SCRIPT
         // ==========================================
         // GANTI URL INI DENGAN URL WEBAPP /EXEC ANDA!
-        const SCRIPT_URL = ""; 
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx_YOUR_URL_HERE/exec"; 
         
         // Auto-detect environment Canvas (Local) jika URL belum diisi
         const IS_LOCAL = (SCRIPT_URL === "");
 
         // ==========================================
-        // FUNGSI KOMUNIKASI API (FETCH)
+        // FUNGSI KOMUNIKASI API (FETCH) YANG DIPERBARUI
         // ==========================================
         async function apiCall(action, data) {
-            if (IS_LOCAL) return mockApiCall(action, data); // Gunakan mock jika URL kosong (Canvas)
+            if (IS_LOCAL) return mockApiCall(action, data); 
 
             try {
+                // Perbaikan krusial untuk komunikasi lintas domain (Vercel -> GAS)
                 const response = await fetch(SCRIPT_URL, {
-                    redirect: "follow",
+                    redirect: "follow", // WAJIB untuk GAS POST redirect
                     method: "POST",
-                    headers: { "Content-Type": "text/plain;charset=utf-8" },
-                    body: JSON.stringify({ action: action, ...data })
+                    headers: { 
+                        // Menggunakan text/plain mencegah pre-flight CORS error yang sering memblokir JSON
+                        "Content-Type": "text/plain;charset=utf-8" 
+                    },
+                    // Payload tetap di-stringify JSON
+                    body: JSON.stringify({ action: action, ...data }) 
                 });
+                
+                // Pastikan respon dikonversi kembali ke JSON
                 return await response.json();
             } catch (error) {
                 console.error("API Error:", error);
@@ -946,7 +953,7 @@ Password : {{Password}}</textarea>
         window.onload = () => {
             switchSection('login-section');
             if(!IS_LOCAL && SCRIPT_URL === "") {
-                console.warn("https://script.google.com/macros/s/AKfycbxBJZhI0WotPZc9brY_4hwv4rYBSpsMCyQIjIajCY-Aq1um2zLJCRtLKerbKKs7QZ-8/exec");
+                console.warn("https://script.google.com/macros/s/AKfycbxTc1F54XJRYe56wSfF_7wPIoobTWPu24m_AcY0U5vhDWo1TIHan9rESZUKh-3QRpoi/exec");
             }
         };
     </script>
