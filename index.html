@@ -588,12 +588,13 @@ Password : {{Password}}</textarea>
 
             } catch (error) {
                 console.error("API Error:", error);
-                const errorMsg = error.message.includes("Akses ditolak") 
-                    ? error.message 
+                const errorMsg = error.message.includes("Akses ditolak")
+                    ? error.message
                     : "Koneksi gagal atau terblokir. Pastikan jaringan stabil.";
                 throw new Error(errorMsg);
             }
-
+        }
+        
         // --- PREVENT SHORTCUTS (Anti-Cheat Screenshot) ---
         document.addEventListener('keydown', function(e) {
             if (e.key === 'PrintScreen' || 
