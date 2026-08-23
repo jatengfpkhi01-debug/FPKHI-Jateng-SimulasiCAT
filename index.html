@@ -563,27 +563,30 @@ Password : {{Password}}</textarea>
         async function apiCall(action, payload = {}) {
             if (SCRIPT_URL === "") throw new Error("URL API Belum Diatur!");
             try {
+                // Menghapus 'headers' secara paksa agar browser tidak melakukan Preflight (OPTIONS)
+                // Ini adalah trik rahasia melewati blokir CORS Google Apps Script
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    redirect: "follow", 
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({ action: action, ...payload })
                 });
                 
-                // Peningkatan Debugging: Baca teks asli dari Google terlebih dahulu
                 const rawText = await response.text();
                 
                 try {
-                    // Coba ubah menjadi JSON
                     return JSON.parse(rawText);
                 } catch (parseError) {
-                    console.error("Google tidak mengirim JSON:", rawText);
-                    throw new Error("Server Google menolak akses atau meminta Otorisasi. Pastikan Anda sudah memberikan izin pada script.");
+                    console.error("Bukan JSON:", rawText);
+                    if (rawText.includes("html")) {
+                         throw new Error("URL WebApp salah! Pastikan URL berakhiran /exec dan Hak Akses 'Semua Orang' (Anyone).");
+                    }
+                    throw new Error("Server menolak akses. Pastikan sudah klik Izinkan (Otorisasi) di Apps Script.");
                 }
 
             } catch (error) {
                 console.error("API Error:", error);
-                const errorMsg = error.message.includes("Server Google") ? error.message : "Koneksi gagal. Periksa jaringan Anda atau URL Script.";
+                const errorMsg = error.message.includes("Server menolak") || error.message.includes("URL WebApp salah") 
+                    ? error.message 
+                    : "Koneksi gagal. Periksa URL WebApp Anda di kode, pastikan bukan link /edit.";
                 throw new Error(errorMsg);
             }
         }
