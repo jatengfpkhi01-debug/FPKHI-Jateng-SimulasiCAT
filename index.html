@@ -546,7 +546,7 @@ Password : {{Password}}</textarea>
         // ==========================================
         // KONFIGURASI API (WAJIB DIISI URL BARU)
         // ==========================================
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz6wpo-zKnIQ27x4HzP6gGoaikv65WlAcNHZ-OyVWyr0gak4_dTcLR0Fp9mSjwlp4kc/exec"; 
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwe7Lp4Y12kEIDb0yO7fH0zSDR3k2TID4u32Y9Wp8jY38lJ1A2i4NlJ1NlJ1NlJ1NlJ/exec"; 
         
         const IS_LOCAL = typeof google === 'undefined' && (SCRIPT_URL === "" || SCRIPT_URL.includes("script.google.com/macros/s/"));
         
@@ -559,15 +559,19 @@ Password : {{Password}}</textarea>
             materials: []
         };
 
-        // --- CORE API CALLER (VERCEL READY - CORS BYPASS) ---
+        // --- CORE API CALLER (VERCEL READY - CORS BYPASS ULTIMATE) ---
         async function apiCall(action, payload = {}) {
             if (SCRIPT_URL === "") throw new Error("URL API Belum Diatur!");
             try {
-                // Menghapus 'headers' secara paksa agar browser tidak melakukan Preflight (OPTIONS)
-                // Ini adalah trik rahasia melewati blokir CORS Google Apps Script
+                // Trik Anti-CORS Ultimate: Menyamar sebagai Form biasa (URLSearchParams)
+                const dataString = JSON.stringify({ action: action, ...payload });
+                
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    body: JSON.stringify({ action: action, ...payload })
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({ data: dataString })
                 });
                 
                 const rawText = await response.text();
@@ -576,25 +580,27 @@ Password : {{Password}}</textarea>
                     return JSON.parse(rawText);
                 } catch (parseError) {
                     console.error("Bukan JSON:", rawText);
-                    if (rawText.includes("html")) {
-                         throw new Error("URL WebApp salah! Pastikan URL berakhiran /exec dan Hak Akses 'Semua Orang' (Anyone).");
+                    if (rawText.includes("html") || rawText.includes("Sign in")) {
+                         throw new Error("Akses ditolak. Pastikan URL WebApp berakhiran /exec dan Hak Akses 'Siapa saja' (Anyone).");
                     }
-                    throw new Error("Server menolak akses. Pastikan sudah klik Izinkan (Otorisasi) di Apps Script.");
+                    throw new Error("Server membalas dengan format yang tidak dikenal.");
                 }
 
             } catch (error) {
                 console.error("API Error:", error);
-                const errorMsg = error.message.includes("Server menolak") || error.message.includes("URL WebApp salah") 
+                const errorMsg = error.message.includes("Akses ditolak") 
                     ? error.message 
-                    : "Koneksi gagal. Periksa URL WebApp Anda di kode, pastikan bukan link /edit.";
+                    : "Koneksi gagal atau terblokir. Pastikan jaringan stabil.";
                 throw new Error(errorMsg);
             }
-        }
 
-        // --- PREVENT SHORTCUTS (Anti-Cheat) ---
+        // --- PREVENT SHORTCUTS (Anti-Cheat Screenshot) ---
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'PrintScreen' || (e.ctrlKey && (e.key === 'p' || e.key === 's')) || (e.metaKey && e.shiftKey && (e.key === '3' || e.key === '4' || e.key === '5'))) {
-                e.preventDefault(); Swal.fire('Peringatan', 'Screenshot dinonaktifkan demi keamanan.', 'warning');
+            if (e.key === 'PrintScreen' || 
+               (e.ctrlKey && (e.key === 'p' || e.key === 's')) || 
+               (e.metaKey && e.shiftKey && (e.key === '3' || e.key === '4' || e.key === '5'))) {
+                e.preventDefault();
+                Swal.fire('Peringatan', 'Fitur Screenshot/Cetak Layar dinonaktifkan demi keamanan.', 'warning');
             }
         });
 
