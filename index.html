@@ -546,9 +546,10 @@ Password : {{Password}}</textarea>
         // ==========================================
         // KONFIGURASI API (WAJIB DIISI URL BARU)
         // ==========================================
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwe7Lp4Y12kEIDb0yO7fH0zSDR3k2TID4u32Y9Wp8jY38lJ1A2i4NlJ1NlJ1NlJ1NlJ/exec"; 
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz6wpo-zKnIQ27x4HzP6gGoaikv65WlAcNHZ-OyVWyr0gak4_dTcLR0Fp9mSjwlp4kc/exec"; 
         
-        const IS_LOCAL = typeof google === 'undefined' && (SCRIPT_URL === "" || SCRIPT_URL.includes("script.google.com/macros/s/"));
+        // Deteksi jika masih menggunakan URL dummy. Jika ya, aktifkan Mode Simulasi Canvas.
+        const IS_SIMULATION = SCRIPT_URL === "" || SCRIPT_URL.includes("1A2i4NlJ1NlJ1NlJ1NlJ");
         
         let appState = {
             currentUser: null,
@@ -561,37 +562,53 @@ Password : {{Password}}</textarea>
 
         // --- CORE API CALLER (VERCEL READY - CORS BYPASS ULTIMATE) ---
         async function apiCall(action, payload = {}) {
-            if (SCRIPT_URL === "") throw new Error("URL API Belum Diatur!");
+            // Mencegah 'Failed to fetch' di Canvas: Gunakan Data Simulasi jika URL belum diubah
+            if (IS_SIMULATION) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        console.log("[Mode Simulasi] Memproses:", action);
+                        if (action === 'loginUser') {
+                            if (payload.data) resolve({ success: true, message: `Pendaftaran berhasil! NR: NR${Math.floor(Math.random() * 10000)}` });
+                            else if (payload.nr === 'ADMIN') resolve({ success: true, role: 'admin', user: { nr: 'ADMIN', name: 'Administrator' }, token: 'sim-token' });
+                            else resolve({ success: true, role: 'user', user: { nr: payload.nr, name: 'Peserta Simulasi', score: '-', status: 'Pending' }, token: 'sim-token' });
+                        } else if (action === 'getAdminData') {
+                            resolve({ 
+                                users: [{ NR: 'NR123', Nama: 'Peserta Demo', Password: '123', Score: '85', Status: 'Done', FinishTime: Date.now() }], 
+                                schedules: [{ ID: 'SCH1', NamaSimulasi: 'Simulasi Gelombang 1', WaktuMulai: '2020-01-01T00:00', WaktuSelesai: '2030-12-31T23:59' }] 
+                            });
+                        } else if (action === 'getExamSetup') {
+                            resolve({ questions: [{ id: "Q1", text: "Apa rukun haji yang pertama?", options: { A: "Ihram", B: "Wukuf", C: "Tawaf", D: "Sa'i", E: "Mabit" }, answer: "Ihram" }], durationMinutes: 60 });
+                        } else if (action === 'submitExam') {
+                            resolve({ success: true, score: 100, isCheat: payload.isCheat });
+                        } else if (action === 'getMaterials') {
+                            resolve({ success: true, materials: [{ ID: 'MAT1', NamaMateri: 'Materi Haji', Tentang: 'Panduan Dasar', URL: '#' }] });
+                        } else {
+                            resolve({ success: true, message: "Aksi berhasil (Mode Simulasi)" });
+                        }
+                    }, 600);
+                });
+            }
+
+            if (!SCRIPT_URL || SCRIPT_URL.trim() === "") throw new Error("URL API Belum Diatur!");
             try {
-                // Trik Anti-CORS Ultimate: Menyamar sebagai Form biasa (URLSearchParams)
-                const dataString = JSON.stringify({ action: action, ...payload });
-                
+                // Menggunakan 'text/plain' adalah kunci utama agar lolos dari blokade CORS Chrome/Edge
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams({ data: dataString })
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: action, ...payload })
                 });
                 
                 const rawText = await response.text();
                 
-                try {
-                    return JSON.parse(rawText);
-                } catch (parseError) {
-                    console.error("Bukan JSON:", rawText);
-                    if (rawText.includes("html") || rawText.includes("Sign in")) {
-                         throw new Error("Akses ditolak. Pastikan URL WebApp berakhiran /exec dan Hak Akses 'Siapa saja' (Anyone).");
-                    }
-                    throw new Error("Server membalas dengan format yang tidak dikenal.");
+                try { 
+                    return JSON.parse(rawText); 
+                } catch (parseError) { 
+                    console.error("Balasan Server Bukan JSON:", rawText);
+                    throw new Error("Server menolak akses. Pastikan URL Google Script berakhiran /exec dan Hak Akses 'Siapa saja'."); 
                 }
-
-            } catch (error) {
-                console.error("API Error:", error);
-                const errorMsg = error.message.includes("Akses ditolak")
-                    ? error.message
-                    : "Koneksi gagal atau terblokir. Pastikan jaringan stabil.";
-                throw new Error(errorMsg);
+            } catch (error) { 
+                console.error("Fetch Error Detail:", error);
+                throw new Error("Koneksi terblokir oleh browser. Pastikan URL benar, jaringan stabil, dan matikan ekstensi AdBlocker jika ada."); 
             }
         }
         
@@ -716,7 +733,7 @@ Password : {{Password}}</textarea>
                 const res = await apiCall('checkSession', { nr: appState.currentUser.nr, token: appState.sessionToken });
                 if (res && res.valid === false) {
                     // MENDETEKSI ADA LOGIN DI DEVICE LAIN
-                    clearTimeout(appState.sessionInterval); // BERUBAH MENJADI clearTimeout
+                    clearTimeout(appState.sessionInterval); 
                     
                     if (appState.examState.isActive) {
                         clearInterval(appState.examState.timerInterval);
@@ -736,14 +753,14 @@ Password : {{Password}}</textarea>
         }
 
         function forceLogout() {
-            if (appState.sessionInterval) clearTimeout(appState.sessionInterval); // BERUBAH MENJADI clearTimeout
+            if (appState.sessionInterval) clearTimeout(appState.sessionInterval); 
             appState.sessionToken = null;
             logout();
         }
 
         function logout() {
             if (appState.examState.timerInterval) { clearInterval(appState.examState.timerInterval); appState.examState.timerInterval = null; }
-            if (appState.sessionInterval) { clearTimeout(appState.sessionInterval); appState.sessionInterval = null; } // BERUBAH MENJADI clearTimeout
+            if (appState.sessionInterval) { clearTimeout(appState.sessionInterval); appState.sessionInterval = null; } 
             appState.examState.isActive = false; window.onblur = null; document.removeEventListener("fullscreenchange", checkFullscreenCheat); exitFullscreen();
             appState.currentUser = null; appState.sessionToken = null;
             document.getElementById('user-info').classList.add('hidden');
