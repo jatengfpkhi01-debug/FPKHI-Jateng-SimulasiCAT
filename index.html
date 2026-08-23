@@ -569,10 +569,22 @@ Password : {{Password}}</textarea>
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({ action: action, ...payload })
                 });
-                return await response.json();
+                
+                // Peningkatan Debugging: Baca teks asli dari Google terlebih dahulu
+                const rawText = await response.text();
+                
+                try {
+                    // Coba ubah menjadi JSON
+                    return JSON.parse(rawText);
+                } catch (parseError) {
+                    console.error("Google tidak mengirim JSON:", rawText);
+                    throw new Error("Server Google menolak akses atau meminta Otorisasi. Pastikan Anda sudah memberikan izin pada script.");
+                }
+
             } catch (error) {
                 console.error("API Error:", error);
-                throw new Error("Koneksi gagal. Periksa jaringan Anda.");
+                const errorMsg = error.message.includes("Server Google") ? error.message : "Koneksi gagal. Periksa jaringan Anda atau URL Script.";
+                throw new Error(errorMsg);
             }
         }
 
