@@ -87,11 +87,12 @@
                 <p id="header-user-name" class="font-bold text-sm">Peserta</p>
                 <p id="header-user-nr" class="text-xs text-gray-300">NR000</p>
             </div>
-            <button onclick="logout()" class="bg-red-600 hover:bg-red-700 px-3 py-1.5 rounded text-sm font-medium transition shadow text-white"><i class="fa-solid fa-right-from-bracket mr-1"></i> Keluar</button>
+            <button onclick="logout()" class="bg-red-600 hover:bg-red-700 px-3 py-1.5 rounded text-sm font-medium transition shadow text-white cursor-pointer"><i class="fa-solid fa-right-from-bracket mr-1"></i> Keluar</button>
         </div>
     </header>
 
     <main class="flex-grow overflow-hidden relative flex flex-col h-full w-full">
+        <!-- LOGIN SECTION -->
         <section id="login-section" class="flex flex-col items-center justify-center p-4 fade-in overflow-y-auto h-full absolute inset-0 bg-gray-100 z-50">
             <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-8 border-t-4 border-haji-primary">
                 <div class="text-center mb-6">
@@ -111,7 +112,7 @@
                             <i class="fa-solid fa-eye"></i>
                         </button>
                     </div>
-                    <button type="submit" class="w-full bg-haji-primary hover:bg-haji-secondary text-white font-bold py-2.5 rounded-lg transition shadow-md text-lg">Masuk</button>
+                    <button type="submit" class="w-full bg-haji-primary hover:bg-haji-secondary text-white font-bold py-2.5 rounded-lg transition shadow-md text-lg cursor-pointer">Masuk</button>
                 </form>
                 <p class="mt-6 text-center text-sm text-gray-600">
                     Belum memiliki akun? <a href="#" onclick="switchSection('register-section')" class="text-haji-secondary font-bold hover:underline">Daftar di sini</a>
@@ -119,6 +120,7 @@
             </div>
         </section>
 
+        <!-- REGISTER SECTION -->
         <section id="register-section" class="hidden flex-grow p-4 md:p-8 overflow-y-auto absolute inset-0 bg-gray-100 z-40">
             <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg border-t-4 border-haji-primary p-6 md:p-8">
                 <h2 class="text-2xl font-bold text-haji-primary border-b pb-4 mb-6">Pendaftaran Simulasi</h2>
@@ -132,7 +134,7 @@
                             <label class="block text-sm font-medium text-gray-700 mb-1">Alamat Email Aktif</label>
                             <input type="email" id="reg-email" class="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-haji-secondary outline-none" 
                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required placeholder="email@contoh.com">
-                            <p class="text-[11px] text-red-600 mt-1 font-bold"><i class="fa-solid fa-circle-info"></i> Wajib aktif. NR akan dikirim ke email ini.</p>
+                            <p class="text-[11px] text-red-600 mt-1 font-bold"><i class="fa-solid fa-circle-info"></i> Wajib aktif. NR dan password akan dikirim ke email ini.</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Profesi</label>
@@ -160,13 +162,14 @@
                         </div>
                     </div>
                     <div class="flex gap-4 mt-8">
-                        <button type="button" onclick="switchSection('login-section')" class="w-1/3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 rounded transition">Batal</button>
-                        <button type="submit" class="w-2/3 bg-haji-primary hover:bg-haji-secondary text-white font-bold py-2 rounded shadow transition">Simpan Pendaftaran</button>
+                        <button type="button" onclick="switchSection('login-section')" class="w-1/3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 rounded transition cursor-pointer">Batal</button>
+                        <button type="submit" class="w-2/3 bg-haji-primary hover:bg-haji-secondary text-white font-bold py-2 rounded shadow transition cursor-pointer">Simpan Pendaftaran</button>
                     </div>
                 </form>
             </div>
         </section>
 
+        <!-- DASHBOARD PESERTA -->
         <section id="dashboard-section" class="hidden flex-grow h-full bg-gray-100 overflow-hidden absolute inset-0 z-30">
             <div class="flex h-full w-full">
                 <!-- Sidebar Peserta -->
@@ -176,8 +179,8 @@
                         <p class="text-xs text-gray-500">Panel Simulasi & Materi</p>
                     </div>
                     <nav class="flex-grow p-4 space-y-2">
-                        <a href="#" onclick="switchUserTab('user-tab-simulasi')" id="nav-user-simulasi" class="block px-4 py-3 rounded-lg text-sm font-medium bg-haji-secondary text-white shadow transition"><i class="fa-solid fa-laptop-file mr-3"></i> Simulasi CAT</a>
-                        <a href="#" onclick="switchUserTab('user-tab-materi')" id="nav-user-materi" class="block px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition"><i class="fa-solid fa-book mr-3"></i> Materi & Regulasi</a>
+                        <a href="#" onclick="switchUserTab('user-tab-simulasi')" id="nav-user-simulasi" class="block px-4 py-3 rounded-lg text-sm font-medium bg-haji-secondary text-white shadow transition cursor-pointer"><i class="fa-solid fa-laptop-file mr-3"></i> Simulasi CAT</a>
+                        <a href="#" onclick="switchUserTab('user-tab-materi')" id="nav-user-materi" class="block px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition cursor-pointer"><i class="fa-solid fa-book mr-3"></i> Materi & Regulasi</a>
                     </nav>
                 </aside>
 
@@ -185,13 +188,13 @@
                 <div class="flex-grow p-4 md:p-8 overflow-y-auto w-full">
                     <!-- Navigasi Mobile Peserta -->
                     <div class="md:hidden flex gap-2 mb-4 overflow-x-auto pb-2">
-                        <button onclick="switchUserTab('user-tab-simulasi')" id="mobile-user-simulasi" class="bg-haji-primary text-white text-xs px-3 py-2 rounded shrink-0">Simulasi CAT</button>
-                        <button onclick="switchUserTab('user-tab-materi')" id="mobile-user-materi" class="bg-gray-200 text-gray-800 text-xs px-3 py-2 rounded shrink-0">Materi & Regulasi</button>
+                        <button onclick="switchUserTab('user-tab-simulasi')" id="mobile-user-simulasi" class="bg-haji-primary text-white text-xs px-3 py-2 rounded shrink-0 cursor-pointer">Simulasi CAT</button>
+                        <button onclick="switchUserTab('user-tab-materi')" id="mobile-user-materi" class="bg-gray-200 text-gray-800 text-xs px-3 py-2 rounded shrink-0 cursor-pointer">Materi & Regulasi</button>
                     </div>
 
                     <!-- TAB 1: Simulasi CAT -->
                     <div id="user-tab-simulasi" class="user-tab-content block fade-in w-full">
-                        <div class="max-w-4xl mx-auto w-full">
+                        <div class="max-w-5xl mx-auto w-full">
                             <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 mb-6 rounded shadow-sm">
                                 <p class="font-bold"><i class="fa-solid fa-triangle-exclamation mr-2"></i> PERHATIAN</p>
                                 <p class="text-sm">Ini Hanya Simulasi Bukan Gambaran Nyata. Selama ujian, browser akan masuk mode Fullscreen. Dilarang berpindah aplikasi/tab atau ujian otomatis digagalkan dengan nilai 0!</p>
@@ -199,10 +202,10 @@
 
                             <div class="bg-white rounded-xl shadow-md overflow-hidden border">
                                 <div class="bg-gray-50 p-4 border-b font-bold text-gray-700">
-                                    <span>Data Peserta & Status Ujian</span>
+                                    <span>Jadwal Pelaksanaan Simulasi & Status Ujian</span>
                                 </div>
                                 <div class="p-4 overflow-x-auto">
-                                    <table class="w-full text-left border-collapse whitespace-nowrap">
+                                    <table class="w-full text-left border-collapse whitespace-nowrap min-w-full">
                                         <thead>
                                             <tr class="text-sm text-gray-500 border-b">
                                                 <th class="p-3">Nama Simulasi</th>
@@ -212,18 +215,8 @@
                                                 <th class="p-3 text-center">Aksi Ujian</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td id="dash-simulasi-nama" class="p-3 border-b font-bold text-gray-800 bg-gray-50">-</td>
-                                                <td id="dash-name" class="p-3 border-b font-medium">-</td>
-                                                <td id="dash-nr" class="p-3 border-b font-mono text-sm text-blue-600">-</td>
-                                                <td id="dash-score" class="p-3 border-b text-xl font-bold text-center text-haji-primary">-</td>
-                                                <td class="p-3 border-b text-center">
-                                                    <button id="btn-start-exam" onclick="startExamSetup()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded shadow transition font-medium whitespace-nowrap cursor-pointer">
-                                                        Kerjakan Simulasi
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                        <tbody id="user-table-schedules">
+                                            <tr><td colspan="5" class="p-6 text-center text-gray-500 italic">Memuat jadwal...</td></tr>
                                         </tbody>
                                     </table>
 
@@ -243,8 +236,8 @@
                             <div class="bg-white rounded-xl shadow-md border p-6 w-full">
                                 <h3 class="text-xl font-bold text-gray-800 mb-6 border-b pb-3"><i class="fa-solid fa-book text-haji-primary mr-2"></i> Bahan Belajar & Regulasi Haji</h3>
                                 
-                                <div class="overflow-x-auto border rounded-lg">
-                                    <table class="w-full text-left text-sm whitespace-nowrap">
+                                <div class="overflow-x-auto border rounded-lg w-full">
+                                    <table class="w-full text-left text-sm whitespace-nowrap min-w-full">
                                         <thead class="bg-gray-100 text-gray-700 border-b">
                                             <tr>
                                                 <th class="p-3 text-center w-12">No</th>
@@ -268,6 +261,7 @@
             </div>
         </section>
 
+        <!-- EXAM SECTION -->
         <section id="exam-section" class="hidden flex-grow flex flex-col md:flex-row h-full absolute inset-0 bg-gray-100 z-50 overflow-hidden">
             <!-- Header Ujian (Mobile) -->
             <div class="md:hidden bg-white shadow p-3 flex justify-between items-center z-10 shrink-0 border-b">
@@ -321,6 +315,7 @@
             </div>
         </section>
 
+        <!-- ADMIN DASHBOARD -->
         <section id="admin-section" class="hidden flex-grow h-full bg-gray-100 overflow-hidden absolute inset-0 z-30">
             <div class="flex h-full w-full">
                 <!-- Admin Sidebar -->
@@ -330,11 +325,11 @@
                         <p class="text-xs text-gray-500">Kelola Sistem CAT</p>
                     </div>
                     <nav class="flex-grow p-4 space-y-2">
-                        <a href="#" onclick="switchAdminTab('tab-peserta')" id="nav-tab-peserta" class="block px-4 py-3 rounded-lg text-sm font-medium bg-haji-secondary text-white shadow transition"><i class="fa-solid fa-users mr-3"></i> Daftar Peserta</a>
-                        <a href="#" onclick="switchAdminTab('tab-rekap')" id="nav-tab-rekap" class="block px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition"><i class="fa-solid fa-trophy mr-3"></i> Rekapitulasi Nilai</a>
-                        <a href="#" onclick="switchAdminTab('tab-soal')" id="nav-tab-soal" class="block px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition"><i class="fa-solid fa-book-open mr-3"></i> Manajemen Soal</a>
-                        <a href="#" onclick="switchAdminTab('tab-materi')" id="nav-tab-materi" class="block px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition"><i class="fa-solid fa-folder-open mr-3"></i> Materi & Regulasi</a>
-                        <a href="#" onclick="switchAdminTab('tab-email')" id="nav-tab-email" class="block px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition"><i class="fa-solid fa-envelope mr-3"></i> Pengaturan Email</a>
+                        <a href="#" onclick="switchAdminTab('tab-peserta')" id="nav-tab-peserta" class="block px-4 py-3 rounded-lg text-sm font-medium bg-haji-secondary text-white shadow transition cursor-pointer"><i class="fa-solid fa-users mr-3"></i> Daftar Peserta</a>
+                        <a href="#" onclick="switchAdminTab('tab-rekap')" id="nav-tab-rekap" class="block px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition cursor-pointer"><i class="fa-solid fa-trophy mr-3"></i> Rekapitulasi Nilai</a>
+                        <a href="#" onclick="switchAdminTab('tab-soal')" id="nav-tab-soal" class="block px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition cursor-pointer"><i class="fa-solid fa-book-open mr-3"></i> Manajemen Soal</a>
+                        <a href="#" onclick="switchAdminTab('tab-materi')" id="nav-tab-materi" class="block px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition cursor-pointer"><i class="fa-solid fa-folder-open mr-3"></i> Materi & Regulasi</a>
+                        <a href="#" onclick="switchAdminTab('tab-email')" id="nav-tab-email" class="block px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition cursor-pointer"><i class="fa-solid fa-envelope mr-3"></i> Pengaturan Email</a>
                     </nav>
                 </aside>
 
@@ -342,11 +337,11 @@
                 <div class="flex-grow p-4 md:p-8 overflow-y-auto w-full">
                     <!-- Navigasi Mobile Admin -->
                     <div class="md:hidden flex gap-2 mb-4 overflow-x-auto pb-2">
-                        <button onclick="switchAdminTab('tab-peserta')" class="bg-haji-primary text-white text-xs px-3 py-2 rounded shrink-0">Peserta</button>
-                        <button onclick="switchAdminTab('tab-rekap')" class="bg-gray-200 text-gray-800 text-xs px-3 py-2 rounded shrink-0">Rekap</button>
-                        <button onclick="switchAdminTab('tab-soal')" class="bg-gray-200 text-gray-800 text-xs px-3 py-2 rounded shrink-0">Soal</button>
-                        <button onclick="switchAdminTab('tab-materi')" class="bg-gray-200 text-gray-800 text-xs px-3 py-2 rounded shrink-0">Materi</button>
-                        <button onclick="switchAdminTab('tab-email')" class="bg-gray-200 text-gray-800 text-xs px-3 py-2 rounded shrink-0">Email</button>
+                        <button onclick="switchAdminTab('tab-peserta')" class="bg-haji-primary text-white text-xs px-3 py-2 rounded shrink-0 cursor-pointer">Peserta</button>
+                        <button onclick="switchAdminTab('tab-rekap')" class="bg-gray-200 text-gray-800 text-xs px-3 py-2 rounded shrink-0 cursor-pointer">Rekap</button>
+                        <button onclick="switchAdminTab('tab-soal')" class="bg-gray-200 text-gray-800 text-xs px-3 py-2 rounded shrink-0 cursor-pointer">Soal</button>
+                        <button onclick="switchAdminTab('tab-materi')" class="bg-gray-200 text-gray-800 text-xs px-3 py-2 rounded shrink-0 cursor-pointer">Materi</button>
+                        <button onclick="switchAdminTab('tab-email')" class="bg-gray-200 text-gray-800 text-xs px-3 py-2 rounded shrink-0 cursor-pointer">Email</button>
                     </div>
                     
                     <h2 class="text-2xl font-bold text-gray-800 mb-6 hidden md:block">Dashboard Administrator</h2>
@@ -411,24 +406,18 @@
 
                     <!-- TAB 3: Manajemen Soal & Jadwal -->
                     <div id="tab-soal" class="admin-tab-content hidden fade-in w-full">
-                        <div class="bg-white rounded-xl shadow-md border p-6 w-full">
-                            <h3 class="font-bold text-lg mb-2"><i class="fa-solid fa-upload mr-2 text-haji-primary"></i> Upload Bank Soal (CSV)</h3>
-                            <p class="text-sm text-gray-600 mb-4">Peringatan: Jawaban Benar harus berupa <b>Teks Jawaban</b> (sama persis karakternya dengan salah satu opsi A-E).</p>
-                            <div class="flex flex-col sm:flex-row gap-4">
-                                <button onclick="exportTemplateCSV()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-lg shadow text-sm font-bold transition cursor-pointer"><i class="fa-solid fa-file-csv mr-2"></i> Download Template CSV</button>
-                                <div class="relative flex-grow">
-                                    <input type="file" id="file-csv" accept=".csv" class="hidden" onchange="document.getElementById('file-name').innerText = this.files[0] ? this.files[0].name : 'Belum ada file dipilih'">
-                                    <label for="file-csv" class="w-full bg-gray-100 hover:bg-gray-200 border-2 border-dashed border-gray-300 text-gray-800 px-4 py-2.5 rounded-lg text-sm font-medium cursor-pointer flex items-center justify-center transition"><i class="fa-solid fa-folder-open mr-2 text-gray-500"></i> Pilih File CSV</label>
-                                </div>
-                            </div>
-                            <div class="mt-3 text-sm text-center sm:text-left text-gray-500 font-medium" id="file-name">Belum ada file dipilih</div>
-                            <div class="mt-6 border-t pt-5">
-                                <button onclick="importCSV()" class="w-full sm:w-auto bg-haji-primary hover:bg-haji-secondary text-white px-8 py-2.5 rounded-lg shadow font-bold transition cursor-pointer"><i class="fa-solid fa-cloud-arrow-up mr-2"></i> Mulai Upload Soal</button>
-                            </div>
-
-                            <hr class="my-8 border-gray-200">
-                            <h3 class="font-bold text-lg mb-4"><i class="fa-solid fa-calendar-days mr-2 text-haji-primary"></i> Rencana Pelaksanaan Simulasi</h3>
+                        <div class="bg-white rounded-xl shadow-md border p-6 w-full relative">
                             
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4 border-b pb-4">
+                                <div>
+                                    <h3 class="font-bold text-xl text-gray-800"><i class="fa-solid fa-calendar-days mr-2 text-haji-primary"></i> Pelaksanaan & Bank Soal</h3>
+                                    <p class="text-sm text-gray-500 mt-1">Peringatan: Jawaban Benar CSV harus berupa <b>Teks Jawaban</b>.</p>
+                                </div>
+                                <button onclick="exportTemplateCSV()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-lg shadow-sm text-sm font-bold transition cursor-pointer whitespace-nowrap"><i class="fa-solid fa-file-csv mr-2"></i> Download Template CSV</button>
+                            </div>
+                            
+                            <p class="text-sm text-gray-700 mb-6 bg-blue-50 p-3 rounded-lg border border-blue-100"><i class="fa-solid fa-circle-info text-blue-500 mr-2"></i><b>Petunjuk:</b> Buat Rencana Simulasi terlebih dahulu. Setelah tersimpan, klik tombol <b>Upload Soal</b> pada kolom aksi di tabel untuk memasukkan soal khusus ke jadwal tersebut.</p>
+
                             <div class="bg-gray-50 p-4 rounded-lg border mb-6">
                                 <h4 class="font-bold text-md mb-3 text-gray-700" id="form-schedule-title">Buat Rencana Baru</h4>
                                 <form id="form-schedule" onsubmit="handleSaveSchedule(event)">
@@ -436,7 +425,7 @@
                                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                                         <div>
                                             <label class="block text-xs font-bold text-gray-600 mb-1">Nama Simulasi</label>
-                                            <input type="text" id="sch-nama" class="w-full px-3 py-2 border rounded focus:ring-1 focus:ring-haji-primary outline-none text-sm" required placeholder="Contoh: Gelombang 1">
+                                            <input type="text" id="sch-nama" class="w-full px-3 py-2 border rounded focus:ring-1 focus:ring-haji-primary outline-none text-sm" required placeholder="Contoh: LATIHAN 1">
                                         </div>
                                         <div>
                                             <label class="block text-xs font-bold text-gray-600 mb-1">Waktu Mulai (Buka)</label>
@@ -467,6 +456,35 @@
                                     <tbody id="admin-table-schedules"></tbody>
                                 </table>
                             </div>
+
+                            <!-- MODAL UPLOAD SOAL -->
+                            <div id="modal-upload-soal" class="hidden fixed inset-0 bg-black/60 z-50 items-center justify-center fade-in p-4 backdrop-blur-sm">
+                                <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-lg border-t-4 border-blue-600 relative">
+                                    <div class="flex justify-between items-center mb-4 border-b pb-3">
+                                        <h3 class="font-bold text-lg text-gray-800"><i class="fa-solid fa-cloud-arrow-up mr-2 text-blue-600"></i> Upload Soal Simulasi</h3>
+                                        <button type="button" onclick="closeUploadModal()" class="text-gray-400 hover:text-red-500 transition cursor-pointer"><i class="fa-solid fa-times text-xl"></i></button>
+                                    </div>
+                                    
+                                    <div class="mb-5 bg-gray-50 p-3 rounded border">
+                                        <p class="text-xs text-gray-500 font-bold mb-1">Target Jadwal Pelaksanaan:</p>
+                                        <p class="font-bold text-haji-primary text-lg" id="upload-target-name">-</p>
+                                        <input type="hidden" id="upload-target-id">
+                                    </div>
+                                    
+                                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:bg-gray-50 transition mb-4 group cursor-pointer relative">
+                                        <input type="file" id="file-csv" accept=".csv" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="document.getElementById('file-name').innerText = this.files[0] ? this.files[0].name : 'Belum ada file dipilih'">
+                                        <i class="fa-solid fa-file-csv text-5xl text-gray-300 group-hover:text-blue-500 transition mb-3"></i>
+                                        <p class="text-sm font-bold text-gray-700">Pilih atau Tarik File CSV Kesini</p>
+                                        <p class="text-xs text-gray-500 mt-2 font-mono bg-white inline-block px-2 py-1 rounded border" id="file-name">Belum ada file dipilih</p>
+                                    </div>
+                                    
+                                    <div class="flex justify-end gap-3 mt-6">
+                                        <button type="button" onclick="closeUploadModal()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-5 py-2 rounded-lg shadow-sm text-sm font-bold transition cursor-pointer">Batal</button>
+                                        <button type="button" onclick="importCSV()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow-md text-sm font-bold transition cursor-pointer"><i class="fa-solid fa-upload mr-2"></i> Mulai Upload</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
 
@@ -550,67 +568,55 @@ Password : {{Password}}</textarea>
         // ==========================================
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwe7Lp4Y12kEIDb0yO7fH0zSDR3k2TID4u32Y9Wp8jY38lJ1A2i4NlJ1NlJ1NlJ1NlJ/exec"; 
         
-        // Deteksi jika masih menggunakan URL dummy. Jika ya, aktifkan Mode Simulasi Canvas.
-        const IS_SIMULATION = SCRIPT_URL === "" || SCRIPT_URL.includes("1A2i4NlJ1NlJ1NlJ1NlJ");
+        const IS_LOCAL = typeof google === 'undefined' && (SCRIPT_URL === "" || SCRIPT_URL.includes("ISI_DENGAN_URL"));
         
+        // --- MOCK DATABASE (SIMULASI OFFLINE) ---
+        let mockDB = {
+            users: [
+                { NR: 'ADMIN', Nama: 'Administrator', Email: 'admin@mail.com', Password: 'admin123', Score: '-', Status: 'Admin' }
+            ],
+            schedules: [],
+            questions: [],
+            materials: []
+        };
+
         let appState = {
             currentUser: null,
-            sessionToken: null,    // Token unik per perangkat
-            sessionInterval: null, // Interval Detak Jantung
+            sessionToken: null,    
+            sessionInterval: null, 
             examState: { questions: [], answers: {}, currentIndex: 0, timeLeftSeconds: 0, timerInterval: null, isActive: false },
             adminData: { users: [], schedules: [] },
             materials: []
         };
 
-        // --- CORE API CALLER (VERCEL READY - CORS BYPASS ULTIMATE) ---
+        // --- CORE API CALLER (PERBAIKAN ANTI-CORS FINAL) ---
         async function apiCall(action, payload = {}) {
-            // Mencegah 'Failed to fetch' di Canvas: Gunakan Data Simulasi jika URL belum diubah
-            if (IS_SIMULATION) {
-                return new Promise((resolve) => {
-                    setTimeout(() => {
-                        console.log("[Mode Simulasi] Memproses:", action);
-                        if (action === 'loginUser') {
-                            if (payload.data) resolve({ success: true, message: `Pendaftaran berhasil! NR: NR${Math.floor(Math.random() * 10000)}` });
-                            else if (payload.nr === 'ADMIN') resolve({ success: true, role: 'admin', user: { nr: 'ADMIN', name: 'Administrator' }, token: 'sim-token' });
-                            else resolve({ success: true, role: 'user', user: { nr: payload.nr, name: 'Peserta Simulasi', score: '-', status: 'Pending' }, token: 'sim-token' });
-                        } else if (action === 'getAdminData') {
-                            resolve({ 
-                                users: [{ NR: 'NR123', Nama: 'Peserta Demo', Password: '123', Score: '85', Status: 'Done', FinishTime: Date.now() }], 
-                                schedules: [{ ID: 'SCH1', NamaSimulasi: 'Simulasi Gelombang 1', WaktuMulai: '2020-01-01T00:00', WaktuSelesai: '2030-12-31T23:59' }] 
-                            });
-                        } else if (action === 'getExamSetup') {
-                            resolve({ questions: [{ id: "Q1", text: "Apa rukun haji yang pertama?", options: { A: "Ihram", B: "Wukuf", C: "Tawaf", D: "Sa'i", E: "Mabit" }, answer: "Ihram" }], durationMinutes: 60 });
-                        } else if (action === 'submitExam') {
-                            resolve({ success: true, score: 100, isCheat: payload.isCheat });
-                        } else if (action === 'getMaterials') {
-                            resolve({ success: true, materials: [{ ID: 'MAT1', NamaMateri: 'Materi Haji', Tentang: 'Panduan Dasar', URL: '#' }] });
-                        } else {
-                            resolve({ success: true, message: "Aksi berhasil (Mode Simulasi)" });
-                        }
-                    }, 600);
-                });
-            }
+            if (IS_LOCAL) return simulateApiCall(action, payload);
 
             if (!SCRIPT_URL || SCRIPT_URL.trim() === "") throw new Error("URL API Belum Diatur!");
+            
             try {
                 // Menggunakan 'text/plain' adalah kunci utama agar lolos dari blokade CORS Chrome/Edge
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8'
+                    },
                     body: JSON.stringify({ action: action, ...payload })
                 });
                 
                 const rawText = await response.text();
                 
-                try { 
-                    return JSON.parse(rawText); 
-                } catch (parseError) { 
+                try {
+                    return JSON.parse(rawText);
+                } catch (parseError) {
                     console.error("Balasan Server Bukan JSON:", rawText);
-                    throw new Error("Server menolak akses. Pastikan URL Google Script berakhiran /exec dan Hak Akses 'Siapa saja'."); 
+                    throw new Error("Server menolak akses. Pastikan URL Google Script berakhiran /exec dan Hak Akses 'Siapa saja'.");
                 }
-            } catch (error) { 
+
+            } catch (error) {
                 console.error("Fetch Error Detail:", error);
-                throw new Error("Koneksi terblokir oleh browser. Pastikan URL benar, jaringan stabil, dan matikan ekstensi AdBlocker jika ada."); 
+                throw new Error("Koneksi terblokir oleh browser. Pastikan URL benar, jaringan stabil, dan matikan ekstensi AdBlocker jika ada.");
             }
         }
         
@@ -707,7 +713,6 @@ Password : {{Password}}</textarea>
             
             fetchMaterials();
 
-            // MULAI DETAK JANTUNG (HEARTBEAT) DENGAN JITTER (SKALA 1000 PESERTA)
             if (res.role !== 'admin' && appState.sessionToken) {
                 startHeartbeatJitter();
             }
@@ -715,43 +720,29 @@ Password : {{Password}}</textarea>
             res.role === 'admin' ? loadAdminDashboard() : loadUserDashboard();
         }
 
-        // FUNGSI BARU: Heartbeat dengan waktu acak (30 - 45 detik) agar server tidak diserang serentak
         function startHeartbeatJitter() {
             if (!appState.currentUser || !appState.sessionToken) return;
-            
-            // Jitter: Acak waktu dari 30.000 ms (30 detik) ditambah 0 hingga 15.000 ms (15 detik)
             const jitterTime = 30000 + Math.floor(Math.random() * 15000); 
-            
             appState.sessionInterval = setTimeout(async () => {
                 await checkSessionHeartbeat();
-                startHeartbeatJitter(); // Looping kembali
+                startHeartbeatJitter(); 
             }, jitterTime);
         }
 
-        // SINGLE SESSION HEARTBEAT CHECKER
         async function checkSessionHeartbeat() {
             if (!appState.currentUser || !appState.sessionToken) return;
             try {
                 const res = await apiCall('checkSession', { nr: appState.currentUser.nr, token: appState.sessionToken });
                 if (res && res.valid === false) {
-                    // MENDETEKSI ADA LOGIN DI DEVICE LAIN
                     clearTimeout(appState.sessionInterval); 
-                    
                     if (appState.examState.isActive) {
                         clearInterval(appState.examState.timerInterval);
                         appState.examState.isActive = false;
                         exitFullscreen();
                     }
-                    
-                    Swal.fire({
-                        title: 'Sesi Dihentikan!',
-                        text: 'Akun ini baru saja login di perangkat lain. Akses di perangkat ini segera ditutup.',
-                        icon: 'error',
-                        confirmButtonText: 'OK',
-                        allowOutsideClick: false
-                    }).then(() => { forceLogout(); });
+                    Swal.fire({ title: 'Sesi Dihentikan!', text: 'Akun ini baru saja login di perangkat lain.', icon: 'error', confirmButtonText: 'OK', allowOutsideClick: false }).then(() => { forceLogout(); });
                 }
-            } catch(e) { /* Abaikan error jaringan agar tidak mengganggu ujian */ }
+            } catch(e) { }
         }
 
         function forceLogout() {
@@ -784,72 +775,88 @@ Password : {{Password}}</textarea>
 
         function getScoreFeedback(score) {
             const numScore = parseFloat(score);
-            if (numScore >= 90) return { category: "Sangat siap", desc: "Penguasaan materi sudah kuat. Fokus berikutnya adalah kecepatan mengerjakan soal dan soal kasus.", color: "text-green-700", bg: "bg-green-50", border: "border-green-200" };
-            if (numScore >= 80) return { category: "Siap", desc: "Masih perlu memperkuat regulasi dan beberapa materi klinis.", color: "text-blue-700", bg: "bg-blue-50", border: "border-blue-200" };
-            if (numScore >= 70) return { category: "Cukup", desc: "Perlu mengulang KMK 508/2024, istithaah, manasik, kegawatdaruratan dan regulasi.", color: "text-yellow-700", bg: "bg-yellow-50", border: "border-yellow-200" };
-            return { category: "Perlu penguatan", desc: "Sebaiknya belajar berdasarkan kelompok materi sebelum melakukan simulasi ulang.", color: "text-red-700", bg: "bg-red-50", border: "border-red-200" };
+            if (numScore >= 90) return { category: "Sangat siap", desc: "Penguasaan materi sudah kuat.", color: "text-green-700", bg: "bg-green-50", border: "border-green-200" };
+            if (numScore >= 80) return { category: "Siap", desc: "Masih perlu memperkuat regulasi.", color: "text-blue-700", bg: "bg-blue-50", border: "border-blue-200" };
+            if (numScore >= 70) return { category: "Cukup", desc: "Perlu mengulang materi utama.", color: "text-yellow-700", bg: "bg-yellow-50", border: "border-yellow-200" };
+            return { category: "Perlu penguatan", desc: "Belajar lagi berdasarkan kelompok materi.", color: "text-red-700", bg: "bg-red-50", border: "border-red-200" };
         }
 
         async function loadUserDashboard() {
             switchSection('dashboard-section'); switchUserTab('user-tab-simulasi');
             document.getElementById('dash-name').innerText = appState.currentUser.name; document.getElementById('dash-nr').innerText = appState.currentUser.nr;
-            const scoreLabel = document.getElementById('dash-score'); const btnStart = document.getElementById('btn-start-exam'); const feedbackContainer = document.getElementById('feedback-container'); const feedbackCategory = document.getElementById('feedback-category'); const feedbackDesc = document.getElementById('feedback-desc');
             
-            // Cek Jadwal Aktif Server
-            document.getElementById('dash-simulasi-nama').innerHTML = `<span class="text-gray-500 animate-pulse">Memuat jadwal...</span>`;
+            // Ambil jadwal aktif dari server
+            showLoading("Memeriksa Jadwal...");
             try {
-                const schRes = await apiCall('getActiveSchedule');
-                if (schRes.active) {
-                    document.getElementById('dash-simulasi-nama').innerHTML = `<span class="text-green-600"><i class="fa-solid fa-circle-play animate-pulse mr-1"></i> ${schRes.active.NamaSimulasi}</span>`;
-                    btnStart.disabled = false;
-                    btnStart.classList.remove('opacity-50', 'cursor-not-allowed');
-                } else if (schRes.upcoming) {
-                    document.getElementById('dash-simulasi-nama').innerHTML = `<span class="text-orange-500"><i class="fa-solid fa-clock mr-1"></i> ${schRes.upcoming.NamaSimulasi} (Akan Datang)</span>`;
-                    btnStart.disabled = true;
-                    btnStart.classList.add('opacity-50', 'cursor-not-allowed');
-                } else {
-                    document.getElementById('dash-simulasi-nama').innerHTML = `<span class="text-red-500"><i class="fa-solid fa-ban mr-1"></i> Belum ada jadwal</span>`;
-                    btnStart.disabled = true;
-                    btnStart.classList.add('opacity-50', 'cursor-not-allowed');
+                const res = await apiCall('getAdminData'); 
+                hideLoading();
+                const schedules = res.schedules || [];
+                const tbodySchedules = document.getElementById('user-table-schedules');
+                tbodySchedules.innerHTML = '';
+                
+                const now = new Date().getTime();
+                
+                if (schedules.length === 0) {
+                     tbodySchedules.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-gray-500 italic">Belum ada jadwal ujian tersedia.</td></tr>`;
+                     return;
                 }
-            } catch(e) {
-                document.getElementById('dash-simulasi-nama').innerText = "Gagal memuat jadwal";
-            }
 
-            if(appState.currentUser.status === 'Done') {
-                scoreLabel.innerText = appState.currentUser.score;
-                btnStart.innerText = "Ulangi Simulasi"; btnStart.className = "bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded shadow transition font-medium whitespace-nowrap cursor-pointer";
-                const feedback = getScoreFeedback(appState.currentUser.score);
-                feedbackContainer.className = `mt-4 p-4 rounded-lg border ${feedback.bg} ${feedback.border} block`;
-                feedbackCategory.innerHTML = `Kategori: ${feedback.category}`; feedbackCategory.className = `font-bold text-lg ${feedback.color}`;
-                feedbackDesc.innerText = feedback.desc; feedbackDesc.className = `text-sm mt-1 text-gray-700`;
-            } else {
-                scoreLabel.innerText = 'Belum Ujian'; btnStart.innerText = "Kerjakan Simulasi"; btnStart.className = "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow transition font-medium whitespace-nowrap cursor-pointer";
-                if(feedbackContainer) feedbackContainer.className = 'hidden';
-            }
+                schedules.forEach(sch => {
+                    const startTs = new Date(sch.WaktuMulai).getTime();
+                    const endTs = new Date(sch.WaktuSelesai).getTime();
+                    const isActive = now >= startTs && now <= endTs;
+                    const isPast = now > endTs;
+                    const isUpcoming = now < startTs;
+                    
+                    // Cek apakah peserta sudah mengerjakan jadwal ini (cek stempel ID)
+                    const hasDone = appState.currentUser.status === 'Done' && appState.currentUser.ScheduleID === sch.ID;
+                    
+                    let actionBtn = '';
+                    let scoreDisplay = '-';
+                    
+                    if (hasDone) {
+                        scoreDisplay = `<span class="text-xl font-bold text-green-700">${appState.currentUser.score}</span>`;
+                        actionBtn = `<button disabled class="bg-gray-300 text-gray-600 px-4 py-2 rounded shadow font-medium cursor-not-allowed">Sudah Dikerjakan</button>`;
+                    } else if (isActive) {
+                        actionBtn = `<button onclick="startExamSetup('${sch.ID}')" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded shadow transition font-medium whitespace-nowrap cursor-pointer">Kerjakan Simulasi</button>`;
+                    } else if (isUpcoming) {
+                        actionBtn = `<button disabled class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded font-medium cursor-not-allowed">Belum Waktunya</button>`;
+                    } else if (isPast) {
+                        actionBtn = `<button disabled class="bg-red-100 text-red-800 px-4 py-2 rounded font-medium cursor-not-allowed">Ditutup</button>`;
+                    }
+                    
+                    tbodySchedules.innerHTML += `
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-3 font-bold text-gray-800">${sch.NamaSimulasi}<br><span class="font-normal text-xs text-gray-500">${formatDateTime(sch.WaktuMulai)} s/d ${formatDateTime(sch.WaktuSelesai)}</span></td>
+                            <td class="p-3">${appState.currentUser.name}</td>
+                            <td class="p-3 font-mono text-sm text-blue-600">${appState.currentUser.nr}</td>
+                            <td class="p-3 text-center">${scoreDisplay}</td>
+                            <td class="p-3 text-center">${actionBtn}</td>
+                        </tr>
+                    `;
+                });
+                
+            } catch(err) { hideLoading(); Swal.fire('Error', 'Gagal memuat jadwal: ' + err.message, 'error'); }
         }
 
-        function startExamSetup() {
-            // Mencegah peserta tembus jika tombol di-hack lewat inspect element
-            if(document.getElementById('btn-start-exam').disabled) return; 
-
+        function startExamSetup(scheduleId) {
             Swal.fire({ title: 'Persiapan Simulasi', html: '<b class="text-red-600">PERHATIAN:</b> Layar akan masuk mode Fullscreen.<br>Keluar dari layar atau berpindah tab akan <b>menggagalkan ujian (Nilai 0).</b>', icon: 'warning', showCancelButton: true, confirmButtonText: 'Mulai', confirmButtonColor: '#d33'
-            }).then((res) => { if(res.isConfirmed) { enterFullscreen(); setTimeout(() => fetchQuestions(), 500); } });
+            }).then((res) => { if(res.isConfirmed) { enterFullscreen(); setTimeout(() => fetchQuestions(scheduleId), 500); } });
         }
 
-        async function fetchQuestions() {
+        async function fetchQuestions(scheduleId) {
             showLoading("Menyiapkan Soal...");
             try { 
-                const res = await apiCall('getExamSetup'); 
+                const res = await apiCall('getExamSetup', { scheduleId: scheduleId }); 
                 hideLoading(); 
                 if(res.success && res.questions) {
                     initExamUI(res); 
-                } else {
-                    // Beri notifikasi jika ditolak oleh backend (Belum waktunya / Soal kosong)
-                    exitFullscreen();
-                    Swal.fire('Informasi', res.message || "Gagal memuat soal", 'info');
+                } else { 
+                    throw new Error(res.message || "Gagal memuat soal"); 
                 }
-            } catch(err) { hideLoading(); exitFullscreen(); Swal.fire('Error', err.message, 'error'); }
+            } catch(err) { 
+                hideLoading(); exitFullscreen(); Swal.fire('Error', err.message, 'error'); 
+            }
         }
 
         function initExamUI(setup) {
@@ -860,7 +867,7 @@ Password : {{Password}}</textarea>
                 let newOptions = {}; const labels = ['A', 'B', 'C', 'D', 'E']; optionsArray.forEach((opt, idx) => { newOptions[labels[idx]] = opt; });
                 return { ...q, options: newOptions };
             });
-            appState.examState = { questions: randomizedQuestions, answers: {}, currentIndex: 0, timeLeftSeconds: setup.durationMinutes * 60, isActive: true };
+            appState.examState = { questions: randomizedQuestions, answers: {}, currentIndex: 0, timeLeftSeconds: setup.durationMinutes * 60, isActive: true, currentScheduleId: setup.questions[0].scheduleId };
             buildNavGrid(); renderQuestion(); switchSection('exam-section'); startTimer();
             window.onblur = cheatDetectionHandler; document.addEventListener("fullscreenchange", checkFullscreenCheat); document.addEventListener("webkitfullscreenchange", checkFullscreenCheat);
         }
@@ -923,8 +930,8 @@ Password : {{Password}}</textarea>
             clearInterval(appState.examState.timerInterval); appState.examState.isActive = false; window.onblur = null; document.removeEventListener("fullscreenchange", checkFullscreenCheat); exitFullscreen();
             showLoading("Mengoreksi..."); const finishTimestamp = Date.now();
             try {
-                const res = await apiCall('submitExam', { nr: appState.currentUser.nr, answers: appState.examState.answers, finishTimestamp: finishTimestamp, isCheat: isCheat });
-                hideLoading(); appState.currentUser.score = res.score; appState.currentUser.status = 'Done';
+                const res = await apiCall('submitExam', { nr: appState.currentUser.nr, answers: appState.examState.answers, finishTimestamp: finishTimestamp, isCheat: isCheat, scheduleId: appState.examState.currentScheduleId });
+                hideLoading(); appState.currentUser.score = res.score; appState.currentUser.status = 'Done'; appState.currentUser.ScheduleID = appState.examState.currentScheduleId;
                 if(!res.isCheat) { const fb = getScoreFeedback(res.score); Swal.fire('Selesai!', `Nilai Anda: ${res.score}\n${fb.category}`, 'success').then(() => loadUserDashboard()); } else { loadUserDashboard(); }
             } catch(err) { hideLoading(); Swal.fire('Error', err.message, 'error').then(() => loadUserDashboard()); }
         }
@@ -961,8 +968,6 @@ Password : {{Password}}</textarea>
                 const currentVal = filterSelect.value || 'ALL'; filterSelect.innerHTML = '<option value="ALL">Semua Jadwal / Keseluruhan</option>';
                 schedules.forEach(s => { const opt = document.createElement('option'); opt.value = s.ID; opt.innerText = s.NamaSimulasi; filterSelect.appendChild(opt); });
                 filterSelect.value = currentVal;
-                
-                // PERBAIKAN FILTER: Kini murni mencocokkan ID Jadwal yang tersimpan di data peserta
                 if (currentVal !== 'ALL') { 
                     pesertaSelesai = pesertaSelesai.filter(u => u.ScheduleID === currentVal); 
                 }
@@ -970,15 +975,37 @@ Password : {{Password}}</textarea>
 
             pesertaSelesai.sort((a, b) => { let scoreA = parseFloat(a.Score) || 0; let scoreB = parseFloat(b.Score) || 0; if (scoreB !== scoreA) return scoreB - scoreA; let timeA = parseInt(a.FinishTime) || Number.MAX_SAFE_INTEGER; let timeB = parseInt(b.FinishTime) || Number.MAX_SAFE_INTEGER; return timeA - timeB; });
             pesertaSelesai.forEach((u, index) => { const rank = index + 1; let medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank; tbodyRekap.innerHTML += `<tr class="border-b hover:bg-gray-100 ${rank <= 3 ? 'bg-orange-50 font-bold' : ''}"><td class="p-3 text-center text-lg">${medal}</td><td class="p-3">${u.Nama}</td><td class="p-3 text-blue-600 font-mono text-xs font-bold">${u.NR}</td><td class="p-3 text-center font-bold text-lg text-green-700">${u.Score}</td><td class="p-3 font-mono text-xs text-gray-500">${formatTime(u.FinishTime)}</td></tr>`; });
-            if (pesertaSelesai.length === 0) tbodyRekap.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-gray-500 italic">Tidak ada data di jadwal ini.</td></tr>`;
+            if (pesertaSelesai.length === 0) tbodyRekap.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-gray-500 italic">Tidak ada data di rentang waktu ini.</td></tr>`;
 
-            if (schedules.length > 0) { schedules.forEach(s => { tbodySchedule.innerHTML += `<tr class="border-b hover:bg-gray-50"><td class="p-3 font-bold text-gray-700">${s.NamaSimulasi}</td><td class="p-3 text-xs">${formatDateTime(s.WaktuMulai)}</td><td class="p-3 text-xs">${formatDateTime(s.WaktuSelesai)}</td><td class="p-3 text-center flex justify-center gap-2"><button onclick="editSchedule('${s.ID}')" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1.5 rounded text-xs font-bold shadow transition cursor-pointer"><i class="fa-solid fa-pen mr-1"></i> Edit</button><button onclick="openUploadModal('${s.ID}', '${s.NamaSimulasi}')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded text-xs font-bold shadow transition cursor-pointer"><i class="fa-solid fa-cloud-arrow-up mr-1"></i> Upload Soal</button></td></tr>`; }); } else { tbodySchedule.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-gray-500 italic">Belum ada rencana simulasi dibuat.</td></tr>`; }
+            if (schedules.length > 0) { schedules.forEach(s => { tbodySchedule.innerHTML += `<tr class="border-b hover:bg-gray-50"><td class="p-3 font-bold text-gray-700">${s.NamaSimulasi}</td><td class="p-3 text-xs">${formatDateTime(s.WaktuMulai)}</td><td class="p-3 text-xs">${formatDateTime(s.WaktuSelesai)}</td><td class="p-3 text-center"><button onclick="editSchedule('${s.ID}')" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-xs font-bold shadow cursor-pointer mr-2"><i class="fa-solid fa-pen mr-1"></i> Edit</button><button onclick="openUploadModal('${s.ID}', '${s.NamaSimulasi}')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs font-bold shadow cursor-pointer"><i class="fa-solid fa-cloud-arrow-up mr-1"></i> Upload Soal</button></td></tr>`; }); } else { tbodySchedule.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-gray-500 italic">Belum ada rencana simulasi dibuat.</td></tr>`; }
         }
 
         // --- MANAJEMEN MODAL UPLOAD ---
+        function openUploadModal(scheduleId, scheduleName) {
+            document.getElementById('upload-target-id').value = scheduleId;
+            document.getElementById('upload-target-name').innerText = scheduleName;
+            document.getElementById('file-csv').value = ""; // reset file input
+            document.getElementById('file-name').innerText = 'Belum ada file dipilih';
+            document.getElementById('modal-upload-soal').classList.remove('hidden');
+            document.getElementById('modal-upload-soal').classList.add('flex');
+        }
+
+        function closeUploadModal() {
+            document.getElementById('modal-upload-soal').classList.add('hidden');
+            document.getElementById('modal-upload-soal').classList.remove('flex');
+        }
+
+        function exportTemplateCSV() {
+            const csvContent = "data:text/csv;charset=utf-8,ID,Soal,OpsiA,OpsiB,OpsiC,OpsiD,OpsiE,JawabanBenar\nQ1,Apa rukun haji yang pertama?,Ihram,Wukuf,Tawaf,Sa'i,Mabit,Ihram\nQ2,Wukuf dilaksanakan pada?,8 Dzulhijjah,9 Dzulhijjah,10 Dzulhijjah,11 Dzulhijjah,12 Dzulhijjah,9 Dzulhijjah";
+            const link = document.createElement("a"); link.setAttribute("href", encodeURI(csvContent)); link.setAttribute("download", "Template_Soal.csv"); document.body.appendChild(link); link.click(); document.body.removeChild(link);
+        }
+
         function importCSV() { 
             const file = document.getElementById('file-csv').files[0];
+            const targetScheduleId = document.getElementById('upload-target-id').value;
+            
             if(!file) return Swal.fire('Pilih File', 'Silakan pilih file CSV terlebih dahulu', 'warning');
+            if(!targetScheduleId) return Swal.fire('Error', 'Target Rencana Simulasi tidak valid.', 'error');
             
             const reader = new FileReader();
             reader.onload = async function(e) {
@@ -1002,13 +1029,14 @@ Password : {{Password}}</textarea>
 
                 if (questionsArray.length === 0) { return Swal.fire('Error', 'Gagal memproses. Cek format kolom.', 'error'); }
 
+                closeUploadModal();
                 showLoading("Mengunggah Soal...");
+                
                 try { 
-                    const res = await apiCall('importQuestions', { questionsArray: questionsArray }); 
+                    const res = await apiCall('importQuestions', { questionsArray: questionsArray, scheduleId: targetScheduleId }); 
                     hideLoading(); 
                     if(res.success) {
                         Swal.fire('Berhasil', res.message, 'success'); 
-                        document.getElementById('file-name').innerText = "Belum ada file dipilih"; document.getElementById('file-csv').value = "";
                     } else { Swal.fire('Gagal', res.message, 'error'); }
                 } catch(err) { hideLoading(); Swal.fire('Error', err.message, 'error'); } 
             };
@@ -1055,6 +1083,40 @@ Password : {{Password}}</textarea>
         async function saveEmailSettings() {
             const subject = document.getElementById('admin-email-subject').value; const template = document.getElementById('admin-email-template').value; showLoading();
             try { const res = await apiCall('saveEmailSettings', { subject, template }); hideLoading(); Swal.fire(res.success ? 'Berhasil' : 'Info', res.message, res.success ? 'success' : 'info'); } catch(err) { hideLoading(); Swal.fire('Error', err.message, 'error'); }
+        }
+
+        // FUNGSI SIMULASI UNTUK CANVAS/PREVIEW (ANTI-CORS ERROR)
+        function simulateApiCall(action, payload) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    console.log(`[Mock API] Menerima action: ${action}`, payload);
+                    if (action === 'loginUser') {
+                        if (payload.data) {
+                            const newNR = 'NR' + Math.floor(10000000000 + Math.random() * 90000000000);
+                            mockDB.users.push({ NR: newNR, Nama: payload.data.nama, Email: payload.data.email, Password: payload.data.password, Score: '-', Status: 'Pending' });
+                            resolve({ success: true, message: `Pendaftaran berhasil. NR Anda: ${newNR}` });
+                        } else {
+                            const user = mockDB.users.find(u => u.NR === payload.nr && u.Password === payload.password);
+                            if (user) resolve({ success: true, role: user.NR === 'ADMIN' ? 'admin' : 'user', user: { nr: user.NR, name: user.Nama, score: user.Score, status: user.Status }, token: 'mock-token' });
+                            else resolve({ success: false, message: 'NR atau Password salah.' });
+                        }
+                    } else if (action === 'getAdminData') {
+                        resolve({ success: true, users: mockDB.users, schedules: mockDB.schedules });
+                    } else if (action === 'saveScheduleData') {
+                        if (payload.payload.id) {
+                            const sch = mockDB.schedules.find(s => s.ID === payload.payload.id);
+                            if (sch) { sch.NamaSimulasi = payload.payload.nama; sch.WaktuMulai = payload.payload.mulai; sch.WaktuSelesai = payload.payload.selesai; }
+                        } else {
+                            mockDB.schedules.push({ ID: 'SCH' + Date.now(), NamaSimulasi: payload.payload.nama, WaktuMulai: payload.payload.mulai, WaktuSelesai: payload.payload.selesai });
+                        }
+                        resolve({ success: true, message: 'Rencana jadwal disimpan.' });
+                    } else if (action === 'getMaterials') {
+                         resolve({ success: true, materials: mockDB.materials });
+                    } else {
+                        resolve({ success: true, message: `Action ${action} disimulasikan sukses.` });
+                    }
+                }, 800);
+            });
         }
 
         window.onload = () => switchSection('login-section');
