@@ -468,62 +468,23 @@
 
         // --- CORE API CALLER (URLSEARCHPARAMS ANTI-CORS FINAL) ---
         async function apiCall(action, payload = {}) {
-            if (!SCRIPT_URL || SCRIPT_URL.trim() === "" || SCRIPT_URL.includes("ISI_DENGAN_URL")) {
-                throw new Error("KODE ERROR 1: URL Google Apps Script belum diisi di kode index.html.");
-            }
-
-            // Jika berjalan di lingkungan preview/lokal, gunakan mock
+            // Jika di Layar Preview Canvas, selalu gunakan Mock API agar tidak error
             if (IS_LOCAL) {
                 return simulateApiCall(action, payload);
             }
-            
+
+            if (!SCRIPT_URL || SCRIPT_URL.trim() === "") throw new Error("URL API Belum Diatur!");
             try {
-                // Gunakan URLSearchParams karena ini standar web untuk bypass preflight
                 const dataString = JSON.stringify({ action: action, ...payload });
-                
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: new URLSearchParams({ data: dataString }),
-                    // Tambahkan mode cors secara eksplisit
-                    mode: 'cors'
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({ data: dataString })
                 });
-                
-                // Jika server tidak membalas dengan status 2xx
-                if (!response.ok) {
-                    throw new Error(`KODE ERROR 2: Server menolak akses (Status: ${response.status}). Pastikan Deployment Google Script diatur untuk 'Siapa Saja' (Anyone).`);
-                }
-
                 const rawText = await response.text();
-                
-                try {
-                    return JSON.parse(rawText);
-                } catch (parseError) {
-                    console.error("Respon bukan JSON:", rawText);
-                    // Deteksi jika Google meminta login (biasanya karena hak akses salah)
-                    if (rawText.toLowerCase().includes("sign in") || rawText.toLowerCase().includes("<!doctype html>")) {
-                         throw new Error("KODE ERROR 3: Google meminta Login. Buka App Script -> Deploy -> Kelola Deployment -> Edit -> Pastikan 'Siapa yang memiliki akses' adalah 'Siapa saja'. WAJIB buat Versi Baru.");
-                    }
-                    throw new Error("KODE ERROR 4: Format balasan server rusak.");
-                }
-
-            } catch (error) {
-                console.error("Fetch Error Detail:", error);
-                
-                // Menangkap pesan error spesifik yang kita buat di atas
-                if (error.message.includes("KODE ERROR")) {
-                    throw error; 
-                }
-
-                // Jika error adalah TypeError (biasanya CORS atau jaringan putus)
-                if (error.name === 'TypeError' || error.message.toLowerCase().includes('fetch')) {
-                    throw new Error(`KODE ERROR 5 (CORS/Network): Browser memblokir koneksi ke Google. \n\nPastikan URL di index.html persis sama dengan URL WebApp yang aktif (berakhiran /exec). Matikan AdBlocker/Brave Shield.`);
-                }
-
-                throw new Error("KODE ERROR 6: Kesalahan sistem yang tidak terduga: " + error.message);
-            }
+                try { return JSON.parse(rawText); } 
+                catch (parseError) { throw new Error("Server menolak akses. Pastikan Hak Akses Google Script adalah 'Siapa saja'."); }
+            } catch (error) { throw new Error("Koneksi gagal atau terblokir. Pastikan jaringan stabil."); }
         }
         
         // --- DETEKSI PERANGKAT & ANTI-CHEAT KEAMANAN ---
