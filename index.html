@@ -589,18 +589,19 @@ Password : {{Password}}</textarea>
             materials: []
         };
 
-        // --- CORE API CALLER (PERBAIKAN ANTI-CORS FINAL) ---
+        // --- CORE API CALLER (PERBAIKAN FORMDATA FINAL) ---
         async function apiCall(action, payload = {}) {
             if (!SCRIPT_URL || SCRIPT_URL.trim() === "") throw new Error("URL API Belum Diatur!");
             
             try {
-                // Menggunakan 'text/plain' adalah kunci utama agar lolos dari blokade CORS Chrome/Edge
+                // MENGGUNAKAN FORMDATA: Trik anti-CORS terkuat. Membungkus payload menjadi Form Element virtual.
+                const formData = new FormData();
+                const payloadString = JSON.stringify({ action: action, ...payload });
+                formData.append('data', payloadString);
+
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'text/plain;charset=utf-8'
-                    },
-                    body: JSON.stringify({ action: action, ...payload })
+                    body: formData // Kirim sebagai form biasa, browser TIDAK AKAN memblokir ini
                 });
                 
                 const rawText = await response.text();
@@ -614,7 +615,7 @@ Password : {{Password}}</textarea>
 
             } catch (error) {
                 console.error("Fetch Error Detail:", error);
-                throw new Error("Koneksi terblokir oleh browser. Pastikan URL benar, jaringan stabil, dan matikan ekstensi AdBlocker jika ada.");
+                throw new Error("Koneksi gagal atau terblokir. Pastikan jaringan stabil.");
             }
         }
         
